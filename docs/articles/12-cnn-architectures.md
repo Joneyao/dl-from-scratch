@@ -11,7 +11,7 @@
 
 ## 一、LeNet：卷积网络的鼻祖
 
-第一个真正用起来的卷积网络，是 1998 年的 LeNet，用来识别手写数字。它奠定了 CNN 的基本骨架，直到今天几乎所有 CNN 都还是这个结构：
+第一个真正用起来的卷积网络，是 1998 年的 LeNet，用来识别手写数字。它奠定了 CNN 的基本骨架，直到今天绝大多数 CNN 仍沿用这个骨架：
 
 ```mermaid
 ---
@@ -27,11 +27,11 @@ flowchart LR
 
 ```python
 model = nn.Sequential(
-    nn.Conv2d(1, 6, 5, padding=2), nn.ReLU(), nn.MaxPool2d(2),
-    nn.Conv2d(6, 16, 5), nn.ReLU(), nn.MaxPool2d(2),
+    nn.Conv2d(1, 6, 5, padding=2), nn.Tanh(), nn.MaxPool2d(2),
+    nn.Conv2d(6, 16, 5), nn.Tanh(), nn.MaxPool2d(2),
     nn.Flatten(),
-    nn.Linear(16*5*5, 120), nn.ReLU(),
-    nn.Linear(120, 84), nn.ReLU(),
+    nn.Linear(16*5*5, 120), nn.Tanh(),
+    nn.Linear(120, 84), nn.Tanh(),
     nn.Linear(84, 10),
 )
 ```
@@ -56,7 +56,7 @@ flowchart LR
     C --> E
     D --> E
 ```
-网络更深更宽、用了 ReLU 而不是 Sigmoid、加了 Dropout 防过拟合、用 GPU 训练。就这么几件小事，加上海量数据和 GPU，把 CNN 重新推上了神坛。
+网络更深更宽、用了 ReLU 而不是 Sigmoid、加了 Dropout 防过拟合、用 GPU 训练。就这么几件小事，加上海量数据和 GPU，让沉寂十几年的卷积网络重新成为图像识别的主流方案。
 
 ## 三、VGG：一次"朴素到极致"的实验
 
@@ -78,11 +78,11 @@ flowchart LR
 于是 VGG 把"全是 3×3、只是加深"这条路走到了极致，一路堆到 16 层、19 层。
 
 ![积木堆高网络加深插画](analogy.png)
-它证明了那条后来被反复验证的规律：**深度本身，就是力量**。
+它第一次用可控实验说明：当设计被压到只剩 3×3 卷积这一招时，加深网络带来的收益稳定超过了堆技巧。
 
 ![LeNet 与 VGG 风格的参数数量对比](param_count.png)
 
-代价也直观地摆在这张图里：VGG 风格的参数比 LeNet 暴涨了几十倍，训练又贵又慢。但性能的大幅提升，让这些代价变得值得。
+代价也直观地摆在这张图里：LeNet 约 6 万参数，VGG-16 约 1.38 亿——差了三个数量级，其中绝大多数来自末尾的全连接层。训练又贵又慢，但性能的大幅提升让这些代价值得付出。
 
 ## 四、更深之后，遇到了新问题
 
