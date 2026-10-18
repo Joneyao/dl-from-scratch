@@ -13,6 +13,9 @@
 
 Transformer 有编码器和解码器两部分。有意思的是，后来的两大流派，各自只取了一半：
 
+![填空与续写对比插画](analogy.png)
+
+
 ```mermaid
 ---
 title: Transformer 分化成 BERT 和 GPT

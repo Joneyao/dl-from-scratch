@@ -50,6 +50,9 @@ flowchart LR
 
 光讲原理没意思，跑个真实验。我们训练一个字符级 RNN：喂它一段文本，让它学会"给定前面的字符，预测下一个字符"。训练好后，给它一个开头，它就能一个字一个字地续写下去。
 
+![自动续写文本插画](analogy.png)
+
+
 ```python
 model, c2i, i2c, hist = train_char_rnn("hello world hello world ...", epochs=150)
 generated = generate(model, c2i, i2c, "h", length=60)

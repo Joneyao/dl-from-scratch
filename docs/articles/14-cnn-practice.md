@@ -109,6 +109,9 @@ flowchart LR
 
 从头训一个像样的 CNN，要几小时 GPU 和海量数据。但大多数时候你根本不用从头训——直接拿一个在 ImageNet 上预训练好的模型（它已经学会了"认边缘、认形状"这些通用特征），只重新训练最后几层分类头，几分钟就能适配你的新任务。
 
+![站在巨人肩上迁移学习插画](analogy.png)
+
+
 ```python
 from torchvision import models
 model = models.resnet18(weights="IMAGENET1K_V1")   # 预训练权重

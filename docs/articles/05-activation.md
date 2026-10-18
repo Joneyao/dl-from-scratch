@@ -42,6 +42,9 @@ Sigmoid 的历史很悠久，但它有两个毛病，在深层网络里是致命
 
 2012 年 AlexNet 用了 ReLU，效果立竿见影。它的定义简单到可以用一行代码写出来：
 
+![ReLU 开关闸门插画](analogy.png)
+
+
 ```python
 def relu(x):
     return x if x > 0 else 0   # 正数原样过，负数归零
