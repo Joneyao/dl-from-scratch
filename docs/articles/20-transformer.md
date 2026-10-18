@@ -33,6 +33,9 @@ flowchart LR
 
 Transformer 的主体，是由很多个相同的"块"堆叠起来的编码器和解码器：
 
+![Transformer 编码器解码器结构图](mechanism.png)
+
+
 ```mermaid
 ---
 title: Transformer 的编码器与解码器
