@@ -33,6 +33,17 @@ BatchNorm 的思路直白：不管上一层输出什么分布，我在这一层�
 
 手写一个 BatchNorm 的前向，其实就三步：
 
+```mermaid
+---
+title: BatchNorm 四步
+---
+flowchart LR
+    A[减均值] --> B[除标准差]
+    B --> C[拉回标准分布]
+    C --> D[乘 γ 加 β]
+```
+
+
 ```python
 mean = x.mean(axis=0)           # 1. 算 batch 均值
 var  = x.var(axis=0)            # 2. 算 batch 方差
@@ -46,7 +57,17 @@ out = gamma * x_hat + beta      # 4. 再乘缩放加平移
 
 BatchNorm 有个反直觉的地方：它在训练和推理时，行为是**两套**。
 
-训练时，batch 里有一批样本，可以算这批样本自己的均值方差。但推理时，可能一次只来一个样本，没有"批"可以算——这时就得用训练阶段攒下来的"滑动平均"（running mean / running var）来代替。
+训练时，batch 里有一批样本，可以算这批样本自己的均值方差。但推理时
+
+```mermaid
+---
+title: 训练与推理用两套统计
+---
+flowchart LR
+    A[训练] --> B[用当前 batch 统计]
+    C[推理] --> D[用滑动平均统计]
+```
+，可能一次只来一个样本，没有"批"可以算——这时就得用训练阶段攒下来的"滑动平均"（running mean / running var）来代替。
 
 这也是为什么你会在很多模型加载报错里看到 "BatchNorm: expected more than 1 value per channel"——那是把训练和推理模式搞混了。
 
@@ -66,6 +87,17 @@ BatchNorm 在普通全连接和 CNN 里是标配，但它有局限：batch 太�
 - **GroupNorm**：把通道分组后组内归一化，小 batch 场景下比 BatchNorm 更稳。
 
 选择原则一句话：全连接和 CNN 默认 BatchNorm，Transformer 和 RNN 用 LayerNorm。
+
+```mermaid
+---
+title: 归一化变体选型
+---
+flowchart LR
+    A[全连接/CNN] --> B[BatchNorm]
+    C[Transformer/RNN] --> D[LayerNorm]
+    E[小 batch] --> F[GroupNorm]
+```
+
 
 到这里，防梯度消失的三件武器齐了：ReLU、He 初始化、归一化。下一篇换个角度，讲怎么让梯度下降"下坡下得更快"——优化器。
 
