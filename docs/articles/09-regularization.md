@@ -59,6 +59,8 @@ loss = 原始损失 + λ · Σ w²
 
 为什么要惩罚大权重？因为"背答案"的网络，往往依赖某些极端大的权重去记住特定样本。
 
+一个容易踩的坑：weight decay 在 SGD 里和 L2 正则等价，但在 Adam 里不等价——Adam 会把这个惩罚项除以自适应梯度，weight decay 就变了味，所以后来专门出了 AdamW，把它从梯度更新里单独拆出来做。
+
 ```mermaid
 ---
 title: weight decay 惩罚大权重
